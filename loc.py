@@ -26,6 +26,7 @@ def print_help():
 	print("Usage: python3 {0} [--location [...] --extension [...] [additional options]] [--help]\n\t--help - Prints the help command\n\t--exclude [...] - Excludes the following folders\n\t--extension [...] - File extensions to count lines from\n\t--location [...] - Location where to run program from".format(sys.argv[0]))
 	
 def calculate_line(filename):
+	print("Counting lines of {0}...".format(filename))
 	with open(filename, "r") as f:
 		lines = f.readlines()
 		return len(lines)
@@ -61,7 +62,10 @@ def run_program(excluded_folders, filetypes, location):
 	fexcluded_folders = []
 	ffiletypes = []
 	for i in range(0, len(excluded_folders)):
-		fexcluded_folders.append(os.path.abspath(os.path.join(os.curdir, excluded_folders[i])))
+		fexcluded_folders.append(os.path.abspath(os.path.join(location, excluded_folders[i])))
+		
+	for i in range(0, len(fexcluded_folders)):
+		print("Excluding {0}...".format(fexcluded_folders[i]))
 				
 	number_of_lines = calculate_lines(fexcluded_folders, filetypes, os.path.abspath(location))
 	print("Number of lines: ", number_of_lines)
